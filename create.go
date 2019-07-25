@@ -40,15 +40,13 @@ func createOrder(c *gin.Context) {
 	c.BindJSON(&createOrderRequestBody)
 
 	if error := createOrderRequestBody.validate(); error != "" {
-		err := map[string]string{"error": error}
-		c.JSON(400, err)
+		c.JSON(400, gin.H{"error": error})
 	}
 
 	distance, error := getDistance(createOrderRequestBody.Origin, createOrderRequestBody.Destination)
 
 	if error != nil {
-		err := map[string]string{"error": error.Error()}
-		c.JSON(400, err)
+		c.JSON(400, gin.H{"error": error.Error()})
 	}
 
 	insert, err := db.Prepare("INSERT INTO `order` (distance, status, origin_latitude, origin_longitude, destination_latitude, destination_longitude) VALUES (?, ?, ?, ?, ?, ?)")

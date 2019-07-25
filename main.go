@@ -16,4 +16,5 @@ func main() {
 
 func initializeRoutes() {
 	router.POST("/orders", createOrder)
+	router.PATCH("/orders/:id", takeOrder)
 }
