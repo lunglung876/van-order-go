@@ -1,0 +1,19 @@
+version:  '3.7'
+services:
+    mysql:
+        build:
+            context: .
+            dockerfile: docker/mysql/Dockerfile
+        command: --default-authentication-plugin=mysql_native_password
+        restart: on-failure
+        ports:
+            - '33061:3306'
+    go:
+        build:
+            context: .
+            dockerfile: docker/go/Dockerfile
+        restart: on-failure
+        env_file:
+            - .env
+        ports:
+            - '8080:8080'
